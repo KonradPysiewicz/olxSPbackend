@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -81,14 +82,10 @@ class PostController extends Controller
     }
 
     public function getPosts(){
-        $postyElektronika = Post::where('kategoria','Elektronika')->orderBy('created_at', 'DESC')->get();
-        $postyMotoryzacja = Post::where('kategoria','Motoryzacja')->orderBy('created_at', 'DESC')->get();
-        $postyNieruchomosci = Post::where('kategoria','Nieruchomosci')->orderBy('created_at', 'DESC')->get();
-        $postyDomIOgrod = Post::where('kategoria','Dom i Ogród')->orderBy('created_at', 'DESC')->get();
-        $postyModa = Post::where('kategoria','Moda')->orderBy('created_at', 'DESC')->get();
-
-        $response = ['postyElektronika' => $postyElektronika, 'postyMotoryzacja' => $postyMotoryzacja,
-            'postyNieruchomosci' => $postyNieruchomosci, 'postyDomIOgrod' => $postyDomIOgrod, 'postyModa' => $postyModa];
+        $users = User::orderBy('id','ASC')->get();
+        foreach($users as $user){
+            $response[$user->name] = Post::where('user_id', $user->id)->orderBy('created_at', 'DESC')->get();
+        }
 
         return $response;
     }

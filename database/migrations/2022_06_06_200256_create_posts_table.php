@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('kategoria');
             $table->string('lokalizacja');
             $table->string('opis');
-            $table->mediumText('image')->nullable;
             $table->timestamps();
         });
     }
